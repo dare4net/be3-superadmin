@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { Manrope } from "next/font/google";
 import Sidebar from "@/components/Layout/Sidebar";
 import "./globals.css";
+
+const manrope = Manrope({ subsets: ["latin"] });
 
 // Pages that don't need sidebar/layout
 const PUBLIC_PATHS = ["/auth/login"];
@@ -37,7 +40,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className="antialiased text-gray-900 bg-gray-50">
+      <body className={`${manrope.className} antialiased text-gray-900 bg-gray-50`}>
         <div className="flex min-h-screen">
           {!isPublicPage && <Sidebar />}
 

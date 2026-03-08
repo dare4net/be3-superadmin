@@ -8,7 +8,9 @@ import {
   Settings,
   CreditCard,
   LogOut,
-  Package
+  Package,
+  Shield,
+  Braces
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +18,8 @@ const NAV_ITEMS = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
   { label: "Tenants", href: "/tenants", icon: Users },
   { label: "Modules", href: "/modules", icon: Package },
+  { label: "System Attributes", href: "/system-attributes", icon: Shield },
+  { label: "Variables", href: "/variables", icon: Braces },
   { label: "Subscriptions", href: "/subscriptions", icon: CreditCard },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
