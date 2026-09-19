@@ -10,9 +10,23 @@ export default function CreateTenantPage() {
     const [formData, setFormData] = useState({
         name: "",
         subdomain: "",
+        currency: "USD",
+        currency_symbol: "$",
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const CURRENCIES = [
+        { code: "USD", symbol: "$", name: "USD ($) - US Dollar" },
+        { code: "NGN", symbol: "₦", name: "NGN (₦) - Nigerian Naira" },
+        { code: "XOF", symbol: "CFA", name: "XOF (CFA) - West African CFA Franc" },
+        { code: "EUR", symbol: "€", name: "EUR (€) - Euro" },
+        { code: "GBP", symbol: "£", name: "GBP (£) - British Pound" },
+        { code: "CAD", symbol: "CA$", name: "CAD (CA$) - Canadian Dollar" },
+        { code: "AUD", symbol: "A$", name: "AUD (A$) - Australian Dollar" },
+        { code: "KES", symbol: "KSh", name: "KES (KSh) - Kenyan Shilling" },
+        { code: "GHS", symbol: "GH₵", name: "GHS (GH₵) - Ghanaian Cedi" },
+    ];
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,7 +34,7 @@ export default function CreateTenantPage() {
         setError("");
 
         try {
-            // Create Tenant (Public endpoint, but we are admin so it's fine)
+            // Create Tenant
             await api.post("/tenants", formData);
             router.push("/tenants");
         } catch (err) {
@@ -69,6 +83,30 @@ export default function CreateTenantPage() {
                             </span>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">Only lowercase letters, numbers, and hyphens.</p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Store Base Currency</label>
+                        <select
+                            className="mt-1 block w-full rounded border border-gray-300 p-2 bg-white"
+                            value={formData.currency}
+                            onChange={(e) => {
+                                const code = e.target.value;
+                                const curr = CURRENCIES.find(c => c.code === code);
+                                setFormData({
+                                    ...formData,
+                                    currency: code,
+                                    currency_symbol: curr ? curr.symbol : "$"
+                                });
+                            }}
+                        >
+                            {CURRENCIES.map((c) => (
+                                <option key={c.code} value={c.code}>
+                                    {c.name}
+                                </option>
+                            ))}
+                        </select>
+                        <p className="mt-1 text-sm text-gray-500">Default currency for all products and checkout transactions in this store.</p>
                     </div>
 
                     <div className="pt-4 flex justify-end gap-3">
